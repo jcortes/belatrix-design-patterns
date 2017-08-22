@@ -83,12 +83,7 @@ class GumballMachine implements ISubjectProxy {
     return this.currentState;
   }
 
-  report(): void {
-    const gumballsSold = this.getTotalNumberOfGumballs() - this.getNumberOfGumballs();
-    console.log("\nLocation is", this.getLocation());
-    console.log("Total Number of Gumballs are", this.getTotalNumberOfGumballs());
-    console.log("Number of Gumballs sold is", gumballsSold);
-  }
+  report(): void {}
 }
 
 class NoQuarterState implements IState {
@@ -242,7 +237,11 @@ class GumballMachineMonitor implements IState, ISubjectProxy {
   }
 
   report(): void {
-    this.gumballMachine.report();
+    const gumballsSold = this.gumballMachine.getTotalNumberOfGumballs() - this.gumballMachine.getNumberOfGumballs();
+    console.log("\n=== Report ===");
+    console.log("Location is", this.gumballMachine.getLocation());
+    console.log("Total Number of Gumballs are", this.gumballMachine.getTotalNumberOfGumballs());
+    console.log("Number of Gumballs sold is", gumballsSold);
   }
 }
 
