@@ -56,7 +56,6 @@ abstract class MenuComponent {
 }
 
 class MenuIterator implements IIterator {
-    // menuItems: Array<MenuComponent>;
     private index: number = 0;
 
     constructor(public menuItems: Array<MenuComponent>) {

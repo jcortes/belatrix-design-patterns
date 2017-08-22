@@ -1,3 +1,7 @@
+interface IProxy {
+  getNumberOfGumballsSold();
+}
+
 interface State {
   gumballMachine: GumballMachine;
   insertQuarter();
@@ -15,10 +19,12 @@ class GumballMachine {
   numberOfGumballs: number = 0;
   numberOfCranks: number = 0;
   twoGumballsPosition: number = 0;
+  location: string;
   FREQUENCY: number = 10;
 
-  constructor(numberOfGumballs: number) {
+  constructor(numberOfGumballs: number, location: string) {
     this.numberOfGumballs = numberOfGumballs;
+    this.location = location;
     this.noQuarterState = new NoQuarterState(this);
     this.hasQuarterState = new HasQuarterState(this);
     this.gumballSoldState = new GumballSoldState(this);
@@ -57,6 +63,10 @@ class GumballMachine {
 
   getNumberOfGumballs(): number {
     return this.numberOfGumballs;
+  }
+
+  getLocation(): string {
+    return this.location;
   }
 
   setState(state: State) {
@@ -195,10 +205,27 @@ class OutOfGumballsState implements State {
   }
 }
 
-const gumballMachine = new GumballMachine(22);
+class GumballMachineMonitor extends GumballMachine implements IProxy {
+  
+  constructor(public numberOgfGumballs: number, public location: string) {
+    super(numberOgfGumballs, location);
+  }
+
+  getLocation(): string {
+    return super.getLocation();
+  }
+
+  getNumberOfGumballsSold(): number {
+    return 0;
+  }
+}
+
+const gumballMachine = new GumballMachineMonitor(22, "Bogota");
+// const gumballMachine = new GumballMachine(22, "Bogota");
 
 for (let i = 0; i < 20; i += 1) {
   gumballMachine.getState().insertQuarter();
   gumballMachine.getState().turnsCranck();
   gumballMachine.getState().dispenseGumball();
 }
+
