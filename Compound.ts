@@ -45,13 +45,13 @@ class DuckSimulator {
     const duckCall: Quackable = new DuckCall();
     const rubberCall: Quackable = new RubberDuck();
 
-    this.simulate2(mallardDuck);
-    this.simulate2(redheadDuck);
-    this.simulate2(duckCall);
-    this.simulate2(rubberCall);
+    this.runSimulate(mallardDuck);
+    this.runSimulate(redheadDuck);
+    this.runSimulate(duckCall);
+    this.runSimulate(rubberCall);
   }
 
-  simulate2(duck: Quackable): void {
+  runSimulate(duck: Quackable): void {
     duck.quack();
   }
 }

@@ -1,8 +1,8 @@
-interface IProxy {
-  getNumberOfGumballsSold();
+interface ISubjectProxy {
+  report(): void;
 }
 
-interface State {
+interface IState {
   gumballMachine: GumballMachine;
   insertQuarter();
   ejectsQuarter();
@@ -10,19 +10,21 @@ interface State {
   dispenseGumball();
 }
 
-class GumballMachine {
-  currentState: State;
-  noQuarterState: State;
-  hasQuarterState: State;
-  gumballSoldState: State;
-  outOfGumballsState: State;
+class GumballMachine implements ISubjectProxy {
+  currentState: IState;
+  noQuarterState: IState;
+  hasQuarterState: IState;
+  gumballSoldState: IState;
+  outOfGumballsState: IState;
   numberOfGumballs: number = 0;
+  totalNumberOfGumballs: number = 0;
   numberOfCranks: number = 0;
   twoGumballsPosition: number = 0;
   location: string;
   FREQUENCY: number = 10;
 
   constructor(numberOfGumballs: number, location: string) {
+    this.totalNumberOfGumballs = numberOfGumballs;
     this.numberOfGumballs = numberOfGumballs;
     this.location = location;
     this.noQuarterState = new NoQuarterState(this);
@@ -65,20 +67,31 @@ class GumballMachine {
     return this.numberOfGumballs;
   }
 
+  getTotalNumberOfGumballs(): number {
+    return this.totalNumberOfGumballs;
+  }
+
   getLocation(): string {
     return this.location;
   }
 
-  setState(state: State) {
+  setState(state: IState) {
     this.currentState = state;
   }
 
-  getState(): State {
+  getState(): IState {
     return this.currentState;
+  }
+
+  report(): void {
+    const gumballsSold = this.getTotalNumberOfGumballs() - this.getNumberOfGumballs();
+    console.log("\nLocation is", this.getLocation());
+    console.log("Total Number of Gumballs are", this.getTotalNumberOfGumballs());
+    console.log("Number of Gumballs sold is", gumballsSold);
   }
 }
 
-class NoQuarterState implements State {
+class NoQuarterState implements IState {
   gumballMachine: GumballMachine;
 
   constructor(gumballMachine: GumballMachine) {
@@ -103,7 +116,7 @@ class NoQuarterState implements State {
   }
 }
 
-class HasQuarterState implements State {
+class HasQuarterState implements IState {
   gumballMachine: GumballMachine;
 
   constructor(gumballMachine: GumballMachine) {
@@ -142,7 +155,7 @@ class HasQuarterState implements State {
   }
 }
 
-class GumballSoldState implements State {
+class GumballSoldState implements IState {
   gumballMachine: GumballMachine;
 
   constructor(gumballMachine: GumballMachine) {
@@ -184,7 +197,7 @@ class GumballSoldState implements State {
   }
 }
 
-class OutOfGumballsState implements State {
+class OutOfGumballsState implements IState {
   gumballMachine: GumballMachine;
 
   constructor(gumballMachine: GumballMachine) {
@@ -205,27 +218,40 @@ class OutOfGumballsState implements State {
   }
 }
 
-class GumballMachineMonitor extends GumballMachine implements IProxy {
+class GumballMachineMonitor implements IState, ISubjectProxy {
+  gumballMachine: GumballMachine;
   
-  constructor(public numberOgfGumballs: number, public location: string) {
-    super(numberOgfGumballs, location);
+  constructor(public numberOfGumballs: number, public location: string) {
+    this.gumballMachine = new GumballMachine(numberOfGumballs, location);
   }
 
-  getLocation(): string {
-    return super.getLocation();
+  insertQuarter() {
+    this.gumballMachine.getState().insertQuarter();
   }
 
-  getNumberOfGumballsSold(): number {
-    return 0;
+  ejectsQuarter() {
+    this.gumballMachine.getState().ejectsQuarter();
+  }
+
+  turnsCranck() {
+    this.gumballMachine.getState().turnsCranck();
+  }
+
+  dispenseGumball() {
+    this.gumballMachine.getState().dispenseGumball();
+  }
+
+  report(): void {
+    this.gumballMachine.report();
   }
 }
 
 const gumballMachine = new GumballMachineMonitor(22, "Bogota");
-// const gumballMachine = new GumballMachine(22, "Bogota");
 
 for (let i = 0; i < 20; i += 1) {
-  gumballMachine.getState().insertQuarter();
-  gumballMachine.getState().turnsCranck();
-  gumballMachine.getState().dispenseGumball();
+  gumballMachine.insertQuarter();
+  gumballMachine.turnsCranck();
+  gumballMachine.dispenseGumball();
 }
 
+gumballMachine.report();
