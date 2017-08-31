@@ -1,0 +1,29 @@
+<div>
+  <label>Track name: </label>
+  <input [(ngModel)]="mp3Player.currentTrack.name" placeholder="Name">
+</div>
+<br>
+<div>
+    <input (click)="mp3Player.prevTrack()" value="Previous Track" type="button">
+    <input (click)="mp3Player.nextTrack()" value="Next Track" type="button">
+</div>
+
+<hr>
+
+<div>
+  <label>BPM: </label>
+  <input [(ngModel)]="mp3Player.currentBpm" placeholder="BPM" type="number">
+</div>
+<br>
+<div>
+  <input (click)="mp3Player.decreaseBpm()" value="Decrease" type="button">
+    <input (click)="mp3Player.increaseBpm()" value="Increase" type="button">
+</div>
+
+<hr>
+
+<div>
+    <input (click)="mp3Player.play()" value="Play" type="button">
+    <input (click)="mp3Player.stop()" value="Stop" type="button">
+</div>
+

@@ -1,0 +1,40 @@
+Para poder recorrer diferentes estructuras de datos, proporcionando una interfaz unica, que patron usariamos ?
+  A composite
+  B Iterator
+  C Strategy
+
+Respuesta:// B
+
+Cuando utilizarian composite Pattern ?
+  A para iterar sobre distintas colecciones de datos.
+  B para representar jerarquias.
+  C para que los Clients no tengan que diferenciar entre objectos simples y compuestos.
+  D B y C
+  E Ninguna 
+
+Respuesta:// D
+
+Tenemos un objeto el cual tiene una creacion muy costosa, que patron utilizarian ?
+  A Factory  
+  B Singleton
+  C Remote Proxy
+  D Ninguna de las anteriores
+  E Virtual Proxy
+
+Respuesta:// B
+
+Con respecto al patron MVC, porque razon no podemos tener la vista en el controlador ?
+
+Respuesta:// Por que hay que separar las responsabilidades, la vista
+solo se deberia de encargar de renderizar los componentes en la UI y el controlador
+solo se deberia de encargar de manejar la interacción entre la vista y el modelo
+
+
+Que patrones utilizarian para representar una contestadora telefonica automatica y como se relacionan (UML)? 
+ Ejemplo:
+ 1- Marcar numero
+ 2- Escuchan la contestadora y las opciones
+ 3- Digitan la opcion
+ 4- Se repite el paso 2.
+
+Si no utilizarian ningun patron especifico que clases utilizarian ?

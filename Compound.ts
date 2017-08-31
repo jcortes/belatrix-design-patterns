@@ -42,19 +42,19 @@ class Goose implements Honkable {
 }
 
 class QuackCounter implements Quackable {
-  numberOfQuacks: number = 0;
+  static numberOfQuacks: number = 0;
 
   constructor(public duck: Quackable) {
     this.duck = duck;
   }
 
   quack() {
-    this.numberOfQuacks += 1;
+    QuackCounter.numberOfQuacks += 1;
     return this.duck.quack();
   }
 
-  getNumberOfQuacks() {
-    return this.numberOfQuacks;
+  static getNumberOfQuacks() {
+    return QuackCounter.numberOfQuacks;
   }
 }
 
@@ -74,10 +74,10 @@ class AnimalSimulator {
   simulate(): void {
     
     const mallardDuck = new QuackCounter(new MallardDuck());
-    const redheadDuck = new RedheadDuck();
-    const duckCall = new DuckCall();
-    const rubberDuck = new RubberDuck();
-    const goose = new QuackToHonkAdapter(new Goose());
+    const redheadDuck = new QuackCounter(new RedheadDuck());
+    const duckCall = new QuackCounter(new DuckCall());
+    const rubberDuck = new QuackCounter(new RubberDuck());
+    const goose = new QuackCounter(new QuackToHonkAdapter(new Goose()));
 
     this.runSimulate(mallardDuck);
     this.runSimulate(redheadDuck);
@@ -85,11 +85,10 @@ class AnimalSimulator {
     this.runSimulate(rubberDuck);
     this.runSimulate(goose);
 
-    console.log("mallardDuck", mallardDuck.getNumberOfQuacks());
+    console.log("Number of Quacks is", QuackCounter.getNumberOfQuacks());
   }
 
   runSimulate(duck: Quackable): void {
-    // console.log("\Duck", duck.name);
     console.log(duck.quack());
   }
 }
